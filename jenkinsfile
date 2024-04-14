@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout')
+        {
+            steps{
+                
+                  git 'https://github.com/prakhardubey0123/SimpleHelloworld'
+            }
+        }
+        stage('Build') {
+            steps {
+                
+                
+                // Build .NET Core project
+                sh 'dotnet build'
+            }
+        }
+        stage('Test') {
+            steps {
+                // Run tests
+                sh 'dotnet test'
+            }
+        }
+        stage('Publish') {
+            steps {
+                
+                sh 'dotnet publish -c Release -o publish'
+            }
+        }
+        stage('Run') {
+            steps {
+                // Run .NET Core project
+                sh 'dotnet "SimpleHelloworld/bin/Debug/net6.0/SimpleHelloworld.dll"'
+            }
+        }
+    }
+}
